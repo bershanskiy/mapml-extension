@@ -22,24 +22,9 @@ chrome.runtime.onMessage.addListener(function (message, sender) {
   const tabId = sender.tab.id;
   if (message === "html") {
     executeScripts(tabId);
-    try {
-      // If document initially had "text/html" content type, we do not have a rule registered.
-      chrome.declarativeNetRequest.updateSessionRules({
-        removeRuleIds: [tabId]
-      });
-    } catch {};
+    removeHeaderFilter(tabId);
   } else if (message === "xml") {
-    chrome.declarativeNetRequest.updateSessionRules({
-      addRules: [{
-        "id": tabId,
-        "priority": 1,
-        "action": {
-          "type" :  "modifyHeaders",
-          "responseHeaders":  [{"header": "Content-Type", "operation": "set", "value": "text/html"}]
-        },
-        "condition": {"resourceTypes": ["main_frame"], "tabIds": [tabId]}
-      }]
-    }, () => chrome.tabs.reload(tabId));
+    addHeaderFilter(tabId);
   } else if (message === "mapml") {
     executeScripts(tabId);
   }
@@ -154,14 +139,4 @@ function createMap() {
     map.zoomTo(hash[4].slice(1), hash[3].slice(1), hash[2]);
   });
   return true;
-}
-
-function executeScripts(tabId) {
-  chrome.scripting.executeScript({target: {tabId: tabId}, func: createMap},
-      (result) => {
-        if(!result[0].result) return;
-        chrome.scripting.insertCSS({target: {tabId: tabId}, files: ['resources/map.css']});
-        chrome.scripting.executeScript({target: {tabId: tabId}, files: ['resources/webcomponents-bundle.js',
-            'resources/importMapml.js']});
-  });
 }

@@ -5,7 +5,13 @@ Source code for the MapML Browser Extension
 
 ## Installing from the source code
 
-1. Enable developer mode in your browser;
-   1. For Chrome goto [chrome://extensions/](chrome://extensions/)
-2. On that same page, click the `Load upacked` button, navigate to the `/src` folder found in the root of this repository.
-3. Now the extension is installed and can be refreshed easily for development.
+1. Run `grunt` from the root of this project to create a build within `/build` directory
+2. Load extension in your browser:
+   - In Chrome:
+      1. Go to [chrome://extensions/](chrome://extensions/)
+      2. On that same page, click the `Load upacked` button, navigate to the `/build/chrome` folder in the root of this repository
+   - In Firefox:
+      1. Go to [about:debugging#/runtime/this-firefox](about:debugging#/runtime/this-firefox)
+      2. Click on "Load temporary addon..."
+      3. Select `/build/firefox/manifest.json` file
+3. Now the extension is installed and can be refreshed easily for development

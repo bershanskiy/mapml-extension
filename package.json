@@ -14,6 +14,9 @@
   },
   "license": "W3C",
   "devDependencies": {
+    "grunt": "^1.5.3",
+    "grunt-contrib-clean": "^2.0.1",
+    "grunt-contrib-copy": "^1.0.0",
     "@playwright/test": "^1.24.2",
     "playwright": "^1.24.2"
   }
